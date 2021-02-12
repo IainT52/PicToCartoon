@@ -1,15 +1,17 @@
 # PicToCartoon
-Tensorflow 2 Neural Networks, OpenCV and Google QuickDraw come together to turn real life pictures into cartoon drawings.
+Tensorflow 2 Neural Networks, OpenCV and Google QuickDraw come together to turn real life pictures into cartoon drawings. Using a pre-trained COCO model (SSD MobileNet V1) for object detection, this app can quickly identify 91 objects and translate them into their cartoon counterparts. 
 
 - Requirements:
-    * Python 3.8*
-    * 
-- install dependencies using `pip install -r requirements_desktop.txt`.
-- run app from command line using `flask run`.
-- close the app using ctrl-C once the downloads have finished.
+    * Python 3.8
+    * Flask
+    * OpenCV
+    * QuickDraw
+- Install dependencies using `pip install -r requirements.txt`.
+- Run app from command line using `flask run`.
+- Close the app using ctrl-C once the downloads have finished.
 
 # The Quick, Draw! Dataset
-![preview](images/preview.jpg)
+![photo](../main/images/preview.jpg)
 
 The Quick Draw Dataset is a collection of 50 million drawings across [345 categories](categories.txt), contributed by players of the game [Quick, Draw!](https://quickdraw.withgoogle.com). The drawings were captured as timestamped vectors, tagged with metadata including what the player was asked to draw and in which country the player was located. You can browse the recognized drawings on [quickdraw.withgoogle.com/data](https://quickdraw.withgoogle.com/data).
 
