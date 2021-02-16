@@ -34,19 +34,3 @@ for i in classNames.keys():
     else:
         ne_hash[classNames[i]] = ""
 print(object_hash)
-
-# Every key represents a tensorflow object and every value represents a matching quickdraw object
-tensorflow_to_quickdraw_hash = {'background': '', 'person': '', 'bicycle': 'bicycle', 'car': 'car', 'motorcycle': '',
-    'airplane': 'airplane', 'bus': 'bus', 'train': 'train', 'truck': 'truck', 'boat': '', 'traffic light': 'traffic light',
-    'fire hydrant': 'fire hydrant', 'stop sign': 'stop sign', 'parking meter': '', 'bench': 'bench', 'bird': 'bird',
-    'cat': 'cat', 'dog': 'dog', 'horse': 'horse', 'sheep': 'sheep', 'cow': 'cow', 'elephant': 'elephant', 'bear': 'bear',
-    'zebra': 'zebra', 'giraffe': 'giraffe', 'backpack': 'backpack', 'umbrella': 'umbrella', 'handbag': '', 'tie': '',
-    'suitcase': 'suitcase', 'frisbee': '', 'skis': '', 'snowboard': '', 'sports ball': '', 'kite': '',
-    'baseball bat': 'baseball bat', 'baseball glove': '', 'skateboard': 'skateboard', 'surfboard': '', 'tennis racket': '',
-    'bottle': '', 'wine glass': 'wine glass', 'cup': 'cup', 'fork': 'fork', 'knife': 'knife', 'spoon': 'spoon', 'bowl': '',
-    'banana': 'banana', 'apple': 'apple', 'sandwich': 'sandwich', 'orange': '', 'broccoli': 'broccoli', 'carrot': 'carrot',
-    'hot dog': 'hot dog', 'pizza': 'pizza', 'donut': 'donut', 'cake': 'cake', 'chair': 'chair', 'couch': 'couch',
-    'potted plant': '', 'bed': 'bed', 'dining table': '', 'toilet': 'toilet', 'tv': '', 'laptop': 'laptop', 'mouse': 'mouse',
-    'remote': '', 'keyboard': 'keyboard', 'cell phone': 'cell phone', 'microwave': 'microwave', 'oven': 'oven',
-    'toaster': 'toaster', 'sink': 'sink', 'refrigerator': '', 'book': 'book', 'clock': 'clock', 'vase': 'vase',
-    'scissors': 'scissors', 'teddy bear': '', 'hair drier': '', 'toothbrush': 'toothbrush'}

@@ -11,8 +11,9 @@ class Detector:
         self.tensorflowNet = cv2.dnn.readNetFromTensorflow(frozenModel, graph)
 
         # Tensorflow accuracy threshold
-        self.threshold = 0.2
-        # List of detected objects.
+        self.threshold = 0.4
+
+        # List of dictionaries containg detected objects information.
         self.detected_objects = []
 
         # Label HashMap
@@ -33,12 +34,25 @@ class Detector:
                     75: 'remote', 76: 'keyboard', 77: 'cell phone', 78: 'microwave', 79: 'oven',
                     80: 'toaster', 81: 'sink', 82: 'refrigerator', 84: 'book', 85: 'clock',
                     86: 'vase', 87: 'scissors', 88: 'teddy bear', 89: 'hair drier', 90: 'toothbrush'}
+        # Tensorflow to QuickDraw HashMap
+        self.tensorflow_to_quickdraw_hash = {'background': '', 'person': 'face', 'bicycle': 'bicycle', 'car': 'car', 'motorcycle': 'motorbike',
+    'airplane': 'airplane', 'bus': 'bus', 'train': 'train', 'truck': 'truck', 'boat': 'sailboat', 'traffic light': 'traffic light',
+    'fire hydrant': 'fire hydrant', 'stop sign': 'stop sign', 'parking meter': '', 'bench': 'bench', 'bird': 'bird',
+    'cat': 'cat', 'dog': 'dog', 'horse': 'horse', 'sheep': 'sheep', 'cow': 'cow', 'elephant': 'elephant', 'bear': 'bear',
+    'zebra': 'zebra', 'giraffe': 'giraffe', 'backpack': 'backpack', 'umbrella': 'umbrella', 'handbag': 'purse', 'tie': 'bowtie',
+    'suitcase': 'suitcase', 'frisbee': 'circle', 'skis': '', 'snowboard': '', 'sports ball': 'soccer ball', 'kite': '',
+    'baseball bat': 'baseball bat', 'baseball glove': '', 'skateboard': 'skateboard', 'surfboard': '', 'tennis racket': 'tennis racquet',
+    'bottle': 'wine bottle', 'wine glass': 'wine glass', 'cup': 'cup', 'fork': 'fork', 'knife': 'knife', 'spoon': 'spoon', 'bowl': '',
+    'banana': 'banana', 'apple': 'apple', 'sandwich': 'sandwich', 'orange': '', 'broccoli': 'broccoli', 'carrot': 'carrot',
+    'hot dog': 'hot dog', 'pizza': 'pizza', 'donut': 'donut', 'cake': 'cake', 'chair': 'chair', 'couch': 'couch',
+    'potted plant': 'house plant', 'bed': 'bed', 'dining table': 'table', 'toilet': 'toilet', 'tv': 'television', 'laptop': 'laptop', 'mouse': 'mouse',
+    'remote': 'remote control', 'keyboard': 'keyboard', 'cell phone': 'cell phone', 'microwave': 'microwave', 'oven': 'oven',
+    'toaster': 'toaster', 'sink': 'sink', 'refrigerator': '', 'book': 'book', 'clock': 'clock', 'vase': 'vase',
+    'scissors': 'scissors', 'teddy bear': 'teddy-bear', 'hair drier': '', 'toothbrush': 'toothbrush'}
 
 
     def detect_object(self, img):
         # Input image
-        # img = 'images\\whiteHorse.jfif'
-        # img = cv2.imread(img)
         img = cv2.cvtColor(numpy.array(img), cv2.COLOR_BGR2RGB)
         height, width, channels = img.shape
 
@@ -51,7 +65,7 @@ class Detector:
         ''' 
         Loop over the detected objects
             Detection Indexes:
-            0: unknown
+            0: (not used)
             1: the identifier of the object's class ex. 5 = 'airplane'
             2: the accuracy (score) of the object detected
             3: dist of object from the left
@@ -63,11 +77,17 @@ class Detector:
 
             score = float(detection[2])
             if score > self.threshold:
-                self.detected_objects.append(self.classNames[detection[1]])
+
+                # Object dimensions
                 left = detection[3] * width
                 top = detection[4] * height
                 right = detection[5] * width
                 bottom = detection[6] * height
+
+                # Object name and scale
+                name_of_object = self.classNames[detection[1]]
+                scale = self.get_image_scale(left,right,top,bottom,width,height)
+                self.detected_objects.append({"name": name_of_object, "scale": scale})
 
                 # draw a red rectangle around detected objects
                 cv2.rectangle(img, (int(left), int(top)), (int(right), int(bottom)), (0, 0, 255), thickness=2)
@@ -75,13 +95,17 @@ class Detector:
         # Resize the image
         img = cv2.resize(img, (width, height), interpolation = cv2.INTER_AREA)
         
-        # self.draw_cartoon()
-        print(self.detected_objects)
+        self.draw_cartoon()
         # Show the image with a rectagle surrounding the detected objects
         cv2.imshow('Image', img)
         cv2.waitKey()
         cv2.destroyAllWindows()
         return img
+    
+    def get_image_scale(self, left, right, top, bottom, width, height):
+        img_area = width*height
+        object_area = (bottom-top)*(right-left)
+        return object_area/img_area
     
 
     def draw_cartoon(self):
@@ -90,5 +114,16 @@ class Detector:
 
         # Get quickdraw cartoon drawings with object results
         for object in self.detected_objects:
-            cur_object = qd.get_drawing(object)
-            cur_object.image.show()
+            object = object["name"]
+            qd_object = self.tensorflow_to_quickdraw_hash[object]
+            if qd_object != "":
+                cur_object = qd.get_drawing(qd_object, 1)
+                cur_object.image.show()
+                # Strokes
+                for stroke in cur_object.strokes:
+                    for x, y in stroke:
+                        pass
+                        # print("x={} y={}".format(x, y))
+            else:
+                print(f"{object} is not a valid QuickDraw Image")
+        return
