@@ -10,6 +10,18 @@ Tensorflow 2 Neural Networks, OpenCV and Google QuickDraw come together to turn 
 - Run app from command line using `flask run`.
 - Close the app using ctrl-C once the downloads have finished.
 
+
+# How it works
+#### Object Detection
+- An image is submitted by the user and then passed through a TensorFlow 2 object detection model.
+- Each detected object is surrounded by a 2D box to represent the area it takes up in the image.
+- Each box is given a scale value corresponding to the size relative to the whole image. Ex. An object that takes up 25% of the entire image will have a scale = 0.25.
+#### Fetching and Normalizing the QuickDraw Cartoon Drawings
+- For each object, a matching cartoon drawing (the drawings stroke coordinates) is fetched from the QuickDraw API.
+- The stroke coordinates for each cartoon drawing are scaled with each matching objects scale value.
+- The stroke coordinates are offset by the location of ....To be continued 
+
+
 # The Quick, Draw! Dataset
 ![photo](images/quickdraw.jpg)
 
@@ -18,17 +30,6 @@ The Quick Draw Dataset is a collection of 50 million drawings across [345 catego
 We're sharing them here for developers, researchers, and artists to explore, study, and learn from. If you create something with this dataset, please let us know [by e-mail](mailto:quickdraw-support@google.com) or at [A.I. Experiments](https://aiexperiments.withgoogle.com/submit).
 
 We have also released a tutorial and model for training your own drawing classifier on [tensorflow.org](https://www.tensorflow.org/tutorials/sequences/recurrent_quickdraw).
-
-Please keep in mind that while this collection of drawings was individually moderated, it may still contain inappropriate content.
-
-## Content
-- [The raw moderated dataset](#the-raw-moderated-dataset)
-- [Preprocessed dataset](#preprocessed-dataset)
-- [Get the data](#get-the-data)
-- [Projects using the dataset](#projects-using-the-dataset)
-- [Changes](#changes)
-- [License](#license)
-
 
 ## The raw moderated dataset
 The raw data is available as [`ndjson`](http://ndjson.org/) files seperated by category, in the following format: 
