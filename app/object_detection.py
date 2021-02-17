@@ -54,7 +54,7 @@ class Detector:
     def detect_object(self, img):
         # Input image
         img = cv2.cvtColor(numpy.array(img), cv2.COLOR_BGR2RGB)
-        height, width, channels = img.shape
+        img_height, img_width, channels = img.shape
 
         # Use the given image as input, which needs to be blob(s).
         self.tensorflowNet.setInput(cv2.dnn.blobFromImage(img, size=(300, 300), swapRB=True, crop=False))
@@ -79,39 +79,68 @@ class Detector:
             if score > self.threshold:
 
                 # Object dimensions
-                left = detection[3] * width
-                top = detection[4] * height
-                right = detection[5] * width
-                bottom = detection[6] * height
-
-                # Object name and scale
+                obj_left = detection[3] * img_width
+                obj_top = detection[4] * img_height
+                obj_right = detection[5] * img_width
+                obj_bottom = detection[6] * img_height
+                # Object name, scale, and x,y offet
                 name_of_object = self.classNames[detection[1]]
-                scale = self.get_image_scale(left,right,top,bottom,width,height)
-                self.detected_objects.append({"name": name_of_object, "scale": scale})
+                xy_scale = self.get_object_scale(obj_left,obj_right,obj_top,obj_bottom,img_width,img_height)
+                xy_normalized = self.normalize_object_coordinates(obj_left,obj_top,img_width,img_height)
+                self.detected_objects.append({"name": name_of_object, "scale": xy_scale, "normalized": xy_normalized, "img_width":img_width, "img_height":img_height})
 
                 # draw a red rectangle around detected objects
-                cv2.rectangle(img, (int(left), int(top)), (int(right), int(bottom)), (0, 0, 255), thickness=2)
+                cv2.rectangle(img, (int(obj_left), int(obj_top)), (int(obj_right), int(obj_bottom)), (0, 0, 255), thickness=2)
         
         # Resize the image
-        img = cv2.resize(img, (width, height), interpolation = cv2.INTER_AREA)
+        img = cv2.resize(img, (img_width, img_height), interpolation = cv2.INTER_AREA)
         
-        self.draw_cartoon()
-        # Show the image with a rectagle surrounding the detected objects
-        cv2.imshow('Image', img)
-        cv2.waitKey()
-        cv2.destroyAllWindows()
-        return img
+        strokes = self.draw_cartoon()
+        object_info = self.detected_objects
+
+        # Empty the detected objects for the next call
+        self.detected_objects = []
+
+        return img, object_info, strokes
     
-    def get_image_scale(self, left, right, top, bottom, width, height):
-        img_area = width*height
-        object_area = (bottom-top)*(right-left)
-        return object_area/img_area
     
+    def get_object_scale(self, obj_left, obj_right, obj_top, obj_bottom, img_width, img_height):
+        scale_x = (obj_right-obj_left)/img_width
+        scale_y = (obj_bottom-obj_top)/img_height
+        return [scale_x, scale_y]
+
+    '''
+    Example Input:
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Lets say we want to normalize the cartoon point of (100,100) ->
+        cartoon image width = 255
+        cartoon image height = 255
+        img_width = 2000
+        img_height = 1300
+        canvas_width = 1200
+        canvas_height = 700
+        img_scale_x = function call above ^ = 0.30
+        img_scale_y = function call above ^ = 0.98
+        obj_left = 1000
+        obj_top = 20
+        obj_bottom = 1300
+        obj_right = 1600
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Determining the normalized coordinates for the cartoon drawing:
+            - Call this function below to get the normalized x and y coordinates for the object: x_norm = 0.5 | y_norm = 0.015
+            - x point scaled and normalized = ((cartoon_point_x / cartoon_img_width) * img_scale_x * img_width) + (x_norm*canvas_width) -> ((100/255)*.30*1200) + (.5*1200)
+            - y point scaled and normalized = ((cartoon_point_y / cartoon_img_height) * img_scale_y * img_height) + (y_norm*canvas_height) -> ((100/255)*0.98*700) + (.015*700)
+
+    '''
+    def normalize_object_coordinates(self, obj_left, obj_top, img_width, img_height):
+        x_normalized = obj_left/img_width
+        y_normalized = obj_top/img_height
+        return [x_normalized, y_normalized]
 
     def draw_cartoon(self):
         # Initialize a QuickDraw object to access the API
         qd = QuickDrawData()
-
+        strokes_object_list = []
         # Get quickdraw cartoon drawings with object results
         for object in self.detected_objects:
             object = object["name"]
@@ -119,11 +148,10 @@ class Detector:
             if qd_object != "":
                 cur_object = qd.get_drawing(qd_object, 1)
                 cur_object.image.show()
+                width, height = cur_object.image.size
+                print(width, height)
                 # Strokes
-                for stroke in cur_object.strokes:
-                    for x, y in stroke:
-                        pass
-                        # print("x={} y={}".format(x, y))
+                strokes_object_list.append(cur_object.strokes)
             else:
                 print(f"{object} is not a valid QuickDraw Image")
-        return
+        return strokes_object_list
