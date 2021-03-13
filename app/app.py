@@ -1,4 +1,3 @@
-import json
 import cv2
 from object_detection import Detector
 from flask import Flask, render_template, request, send_file
