@@ -6,12 +6,12 @@ from quickdraw import QuickDrawData
 class Detector:
     def __init__(self):
         # Load a model imported from Tensorflow.
-        frozenModel = '../ssd_mobilenet_model/frozen_inference_graph.pb'
-        graph = '../ssd_mobilenet_model/ssd_mobilenet_v1_coco_2017_11_17.pbtxt'
-        self.tensorflowNet = cv2.dnn.readNetFromTensorflow(frozenModel, graph)
+        frozen_ssd_model = '../models/ssd_mobilenet_model/frozen_inference_graph.pb'
+        ssd_config = '../models/ssd_mobilenet_model/ssd_mobilenet_v1_coco_2017_11_17.pbtxt'
+        self.tensorflowNet = cv2.dnn.readNetFromTensorflow(frozen_ssd_model, ssd_config)
 
         # Tensorflow accuracy threshold
-        self.threshold = 0.4
+        self.threshold = 0.5
 
         # List of dictionaries containg detected objects information.
         self.detected_objects = []
@@ -40,7 +40,7 @@ class Detector:
     'fire hydrant': 'fire hydrant', 'stop sign': 'stop sign', 'parking meter': '', 'bench': 'bench', 'bird': 'bird',
     'cat': 'cat', 'dog': 'dog', 'horse': 'horse', 'sheep': 'sheep', 'cow': 'cow', 'elephant': 'elephant', 'bear': 'bear',
     'zebra': 'zebra', 'giraffe': 'giraffe', 'backpack': 'backpack', 'umbrella': 'umbrella', 'handbag': 'purse', 'tie': 'bowtie',
-    'suitcase': 'suitcase', 'frisbee': 'circle', 'skis': '', 'snowboard': '', 'sports ball': 'soccer ball', 'kite': '',
+    'suitcase': 'suitcase', 'frisbee': 'circle', 'skis': '', 'snowboard': '', 'sports ball': 'soccer ball', 'kite': 'scissors',
     'baseball bat': 'baseball bat', 'baseball glove': '', 'skateboard': 'skateboard', 'surfboard': '', 'tennis racket': 'tennis racquet',
     'bottle': 'wine bottle', 'wine glass': 'wine glass', 'cup': 'cup', 'fork': 'fork', 'knife': 'knife', 'spoon': 'spoon', 'bowl': '',
     'banana': 'banana', 'apple': 'apple', 'sandwich': 'sandwich', 'orange': '', 'broccoli': 'broccoli', 'carrot': 'carrot',
@@ -49,7 +49,6 @@ class Detector:
     'remote': 'remote control', 'keyboard': 'keyboard', 'cell phone': 'cell phone', 'microwave': 'microwave', 'oven': 'oven',
     'toaster': 'toaster', 'sink': 'sink', 'refrigerator': '', 'book': 'book', 'clock': 'clock', 'vase': 'vase',
     'scissors': 'scissors', 'teddy bear': 'teddy-bear', 'hair drier': '', 'toothbrush': 'toothbrush'}
-
 
     def detect_object(self, img):
         # Input image
@@ -62,6 +61,9 @@ class Detector:
         # Runs a forward pass to compute the net output.
         networkOutput = self.tensorflowNet.forward()
 
+        # For mask rcnn model
+        # networkOutput, mask = self.tensorflowNet.forward(["detection_out_final", "detection_masks"])
+
         ''' 
         Loop over the detected objects
             Detection Indexes:
@@ -73,6 +75,8 @@ class Detector:
             5: dist of object from the right
             6: dist of object from the bottom
         '''
+
+
         for detection in networkOutput[0, 0]:
 
             score = float(detection[2])
@@ -93,7 +97,11 @@ class Detector:
                 cv2.rectangle(img, (int(obj_left), int(obj_top)), (int(obj_right), int(obj_bottom)), (0, 0, 255), thickness=2)
         
         # Resize the image
-        img = cv2.resize(img, (img_width, img_height), interpolation = cv2.INTER_AREA)
+        # scaled_width = 1000
+        # scaled_height = int(scaled_width * img_height / img_width)
+        # img = cv2.resize(img, (scaled_width, scaled_height), interpolation = cv2.INTER_AREA)
+        # cv2.imshow('image',img)
+        # cv2.waitKey(0)
         
         strokes = self.draw_cartoon()
         object_info = self.detected_objects
@@ -113,8 +121,8 @@ class Detector:
     Example Input:
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Lets say we want to normalize the cartoon point of (100,100) ->
-        cartoon image width = 255
-        cartoon image height = 255
+        cartoon_img_width = 255
+        cartoon_img_height = 255
         img_width = 2000
         img_height = 1300
         canvas_width = 1200
@@ -128,8 +136,8 @@ class Detector:
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Determining the normalized coordinates for the cartoon drawing:
             - Call this function below to get the normalized x and y coordinates for the object: x_norm = 0.5 | y_norm = 0.015
-            - x point scaled and normalized = ((cartoon_point_x / cartoon_img_width) * img_scale_x * img_width) + (x_norm*canvas_width) -> ((100/255)*.30*1200) + (.5*1200)
-            - y point scaled and normalized = ((cartoon_point_y / cartoon_img_height) * img_scale_y * img_height) + (y_norm*canvas_height) -> ((100/255)*0.98*700) + (.015*700)
+            - x point scaled and normalized = ((cartoon_point_x / cartoon_img_width) * (img_scale_x * img_width)) + (x_norm*canvas_width) -> ((100/255)*.30*1200) + (.5*1200)
+            - y point scaled and normalized = ((cartoon_point_y / cartoon_img_height) * (img_scale_y * img_height)) + (y_norm*canvas_height) -> ((100/255)*0.98*700) + (.015*700)
 
     '''
     def normalize_object_coordinates(self, obj_left, obj_top, img_width, img_height):
@@ -146,8 +154,7 @@ class Detector:
             object = object["name"]
             qd_object = self.tensorflow_to_quickdraw_hash[object]
             if qd_object != "":
-                cur_object = qd.get_drawing(qd_object, 1)
-                cur_object.image.show()
+                cur_object = qd.get_drawing(qd_object)
                 width, height = cur_object.image.size
                 print(width, height)
                 # Strokes
