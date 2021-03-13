@@ -6,8 +6,8 @@ from quickdraw import QuickDrawData
 class Detector:
     def __init__(self):
         # Load a model imported from Tensorflow.
-        frozen_ssd_model = '../models/ssd_mobilenet_model/frozen_inference_graph.pb'
-        ssd_config = '../models/ssd_mobilenet_model/ssd_mobilenet_v1_coco_2017_11_17.pbtxt'
+        frozen_ssd_model = os.path.join('models','ssd_mobilenet_model','frozen_inference_graph.pb')
+        ssd_config = os.path.join('models','ssd_mobilenet_model','ssd_mobilenet_v1_coco_2017_11_17.pbtxt')
         self.tensorflowNet = cv2.dnn.readNetFromTensorflow(frozen_ssd_model, ssd_config)
 
         # Tensorflow accuracy threshold
