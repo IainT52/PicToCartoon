@@ -2,7 +2,7 @@ import cv2
 import os
 import sys
 # Get the current file path and join it with the object detection file (allows us to be independent of the current working directory)
-sys.path.insert(0, os.path.join(os.path.dirname(__file__),'object_detection'))
+sys.path.insert(0, os.path.dirname(__file__))
 print(os.path.join(os.path.dirname(__file__),'object_detection'))
 print(sys.path)
 from object_detection import Detector
