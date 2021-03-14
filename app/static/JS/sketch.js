@@ -1,8 +1,15 @@
 // Init Variables 
-var strokeIndex = 0, index = 0, i= 0, strokeObjectData, objectData, strokesForEachObject, prevx, prevy, img_width, img_height, img_scale_x, img_scale_y, x_norm, y_norm;
+var strokeIndex = 0, index = 0, i= 0, canvasWidth = $(window).width() * .9, canvasHeight = $(window).height() * .9, 
+strokeObjectData, objectData, strokesForEachObject, prevx, prevy, img_width, img_height, img_scale_x, img_scale_y, x_norm, y_norm;
 // Init constants
-const canvasWidth = 1200, canvasHeight = 700, cartoon_img_height = 255, cartoon_img_width = 255;
+const cartoon_img_height = 255, cartoon_img_width = 255;
 
+// Update canvas on window resize
+$(window).resize(function() {
+    canvasWidth = $(window).width() * .9;
+    canvasHeight = $(window).height() * .9;
+    setup();
+});
 
 function getStrokeData(data){
     strokeObjectData = $.parseJSON(data);
@@ -25,8 +32,8 @@ function setup() {
 
 /* 
  * Equations to normalize scale the x and y points of each stroke coordinate.
- * x point scaled and normalized = ((cartoon_point_x / cartoon_img_width) * (img_scale_x * img_width)) + (x_norm*canvas_width) -> ((100/255)*.30*1200) + (.5*1200)
- * y point scaled and normalized = ((cartoon_point_y / cartoon_img_height) * (img_scale_y * img_height)) + (y_norm*canvas_height) -> ((100/255)*0.98*700) + (.015*700)
+ * x point scaled and normalized = ((cartoon_point_x / cartoon_img_width) * (img_scale_x * img_width)) + (x_norm*canvas_width)
+ * y point scaled and normalized = ((cartoon_point_y / cartoon_img_height) * (img_scale_y * img_height)) + (y_norm*canvas_height)
  */
 function draw() {
     if (strokesForEachObject) {
