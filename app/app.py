@@ -1,6 +1,10 @@
 import cv2
-from app.object_detection import Detector
-from flask import Flask, render_template, request, send_file
+import os
+import sys
+# Get the current file path and join it with the object detection file (allows us to be independent of the current working directory)
+sys.path.append(os.path.join(os.path.dirname(__file__),'object_detection'))
+from object_detection import Detector
+from flask import Flask, render_template, request
 from PIL import Image
 
 app = Flask(__name__, template_folder='templates')
