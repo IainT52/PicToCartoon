@@ -147,7 +147,7 @@ class Detector:
 
     def draw_cartoon(self):
         # Initialize a QuickDraw object to access the API
-        qd = QuickDrawData()
+        qd = QuickDrawData(recognized=True, max_drawings=100)
         strokes_object_list = []
         # Get quickdraw cartoon drawings with object results
         for object in self.detected_objects:
@@ -155,8 +155,6 @@ class Detector:
             qd_object = self.tensorflow_to_quickdraw_hash[object]
             if qd_object != "":
                 cur_object = qd.get_drawing(qd_object)
-                width, height = cur_object.image.size
-                print(width, height)
                 # Strokes
                 strokes_object_list.append(cur_object.strokes)
             else:
