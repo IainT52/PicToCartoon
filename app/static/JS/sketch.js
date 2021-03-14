@@ -42,7 +42,7 @@ function draw() {
         x = ((x / cartoon_img_height) * (img_scale_x * canvasWidth)) + (x_norm * canvasWidth);
         y = ((y / cartoon_img_width) * (img_scale_y * canvasHeight)) + (y_norm * canvasHeight);
         stroke(255);
-        strokeWeight(3);
+        strokeWeight(max(.8,5*((img_scale_x + img_scale_y)/1.4)));
         if (prevx !== undefined) {
             line(prevx, prevy, x, y);
         }

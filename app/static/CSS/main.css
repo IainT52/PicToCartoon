@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Krona+One&family=Roboto+Mono&family=Share+Tech+Mono&family=Pacifico&family=Permanent+Marker&display=swap');
+
+:root {
+    --main-theme-color: #4e9cf5;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html body{
+    background-color: var(--main-theme-color);
+    text-align: center;
+}
+
+/* Scrollbar */
+*::-webkit-scrollbar {
+    width: 5px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: white;
+    border-radius: 20px;
+    border: 3px solid transparent;
+}
+
+/* Home hand scribble font setup*/
+@font-face {
+	font-family: Hand-1;
+	src: url("../font/hand-1.otf") format("opentype"); 
+}
+@font-face {
+	font-family: Hand-2;
+	src: url("../font/hand-2.otf") format("opentype"); 
+}
+@font-face {
+	font-family: Hand-3;
+	src: url("../font/hand-3.otf") format("opentype"); 
+}
+.hand span {
+	position: relative;
+    top: 10vh;
+    transform: translate(-50%, -50%);
+	bottom: -.2em;
+	font-size: calc((1.5vw + 1.5vh)/2 + 5vmin);
+    font-weight: normal;
+}
+
+.credits {
+    position: relative;
+    top: 10vh;
+    font-size: calc((1.3vw + 1.3vh)/2 + 1.5vmin);
+    font-weight: lighter;
+}
+
+.font-1 {
+    font-family: Hand-1;
+}
+.font-2 {
+    font-family: Hand-2;
+}
+.font-3 {
+    font-family: Hand-3; 
+}
+
+#button {
+    background-color: #ffd139;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius:6px;
+    color: #fff;
+    font-family: 'Oswald';
+    font-size: 20px;
+    text-decoration: none;
+    cursor: pointer;
+    border:none;
+}
+
+.submit-container {
+    top: 60vh;
+    
+}
+
+
+
+#button:hover {
+    border: none;
+    background:red;
+    box-shadow: 0px 0px 1px #777;
+}

@@ -4,27 +4,34 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/ico" href="../../images/favicon.ico">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='CSS/main.css') }}">
     <title>PicToCartoon</title>
 </head>
 <body>
-    <form action = "/" method = "POST"
-         enctype = "multipart/form-data">
-         <input type = "file" name = "file"/>
-         <input type = "submit"/>
-      </form>
 
+    <div class="intro-container">
+        <h2 class="hand">
+            <span class="font-2">W</span><span class="font-1">h</span><span class="font-2">a</span><span class="font-2">t</span><span class="font-2"> </span><span class="font-3">h</span><span class="font-3">a</span><span class="font-3">p</span><span class="font-2">p</span><span class="font-3">e</span><span class="font-2">n</span><span class="font-2">s</span><span class="font-2"> </span><span class="font-1">w</span><span class="font-2">h</span><span class="font-2">e</span><span class="font-3">n</span><span class="font-2"> </span><span class="font-2">a</span><span class="font-3"> </span><span class="font-1">N</span><span class="font-1">e</span><span class="font-3">u</span><span class="font-3">r</span><span class="font-3">a</span><span class="font-3">l</span><span class="font-1"> </span><span class="font-1">N</span><span class="font-3">e</span><span class="font-1">t</span><span class="font-2">w</span><span class="font-3">o</span><span class="font-3">r</span><span class="font-1">k</span><span class="font-3"> </span><br><span class="font-3"> </span><span class="font-1">t</span><span class="font-1">r</span><span class="font-1">i</span><span class="font-2">e</span><span class="font-1">s</span><span class="font-2"> </span><span class="font-3">t</span><span class="font-3">o</span><span class="font-1"> </span><span class="font-1">d</span><span class="font-2">r</span><span class="font-2">a</span><span class="font-2">w</span><span class="font-2"> </span><span class="font-2">y</span><span class="font-3">o</span><span class="font-1">u</span><span class="font-1">r</span><span class="font-3"> </span><span class="font-3">p</span><span class="font-1">h</span><span class="font-1">o</span><span class="font-1">t</span><span class="font-3">o</span><span class="font-3">?</span>
+        </h2>
+        <p class="credits">
+            <span class="font-2">A</span><span class="font-2"> </span><span class="font-3">f</span><span class="font-3">u</span><span class="font-3">n</span><span class="font-1"> </span><span class="font-2">p</span><span class="font-1">r</span><span class="font-3">o</span><span class="font-3">j</span><span class="font-1">e</span><span class="font-1">c</span><span class="font-2">t</span><span class="font-3"> </span><span class="font-2">m</span><span class="font-2">a</span><span class="font-1">d</span><span class="font-2">e</span><span class="font-3"> </span><span class="font-2">b</span><span class="font-2">y</span><span class="font-1"> </span><span class="font-1">I</span><span class="font-2">a</span><span class="font-1">i</span><span class="font-2">n</span><span class="font-3"> </span><span class="font-3">T</span><span class="font-2">i</span><span class="font-1">e</span><span class="font-1">r</span><span class="font-3">n</span><span class="font-3">e</span><span class="font-2">y</span><span class="font-2">.</span>
+        </p>
+    </div>
+
+    <div class='submit-container'>
+        <form action = "/" method = "POST"
+            enctype = "multipart/form-data">
+            <input id="button" type = "file" name = "file"/>
+            <input id="button" type = "submit"/>
+        </form>
+    </div>
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- p5.js -->
     <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
     <!-- Local sketch.js -->
-    <script type = "text/javascript" src="{{url_for('static', filename='JS/sketch.js')}}"></script>
-    <script type="text/javascript">
-        sketchData = '{{data|tojson}}'
-        if (sketchData !== '[0]'){
-            getStrokeData(sketchData);
-        }
-    </script>
+    <script type = "text/javascript" src="{{url_for('static', filename='JS/writing.js')}}"></script>
+    <script type = "text/javascript" src="{{url_for('static', filename='JS/submit.js')}}"></script>
 </body>
 </html>
