@@ -4,6 +4,7 @@ import sys
 # Get the current file path and join it with the object detection file (allows us to be independent of the current working directory)
 sys.path.append(os.path.join(os.path.dirname(__file__),'object_detection'))
 print(os.path.join(os.path.dirname(__file__),'object_detection'))
+print(sys.path)
 from object_detection import Detector
 from flask import Flask, render_template, request
 from PIL import Image
