@@ -19,12 +19,47 @@
         </p>
     </div>
 
-    <div class='submit-container'>
-        <form action = "/" method = "POST"
+    <div class="submit-container">
+        <form id="img-form" action = "/" method = "POST"
             enctype = "multipart/form-data">
-            <input id="button" type = "file" name = "file"/>
-            <input id="button" type = "submit"/>
+            <label for="img-submit" class="custom-file-upload">
+                Upload
+                <input id="img-submit" type = "file" name = "file"/>
+            </label>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% block body %}{% endblock %}
         </form>
+        <form id="default-form" action = "/default" method = "POST"
+            enctype = "multipart/form-data">
+        </form>
+        <p class="or">Or choose an image below!</p>
+    </div>
+
+    <div class="grid-container">
+        <div class="row">
+            <div class="column">
+                <img class="default" id= "1" src="{{url_for('static', filename='images/default1.jpg')}}">
+                <img class="default" id= "5" src="{{url_for('static', filename='images/default5.jpg')}}">
+            </div>
+            <div class="column">
+                <img class="default" id= "2" src="{{url_for('static', filename='images/default2.jpg')}}">
+                <img class="default" id= "4" src="{{url_for('static', filename='images/default4.jpg')}}">
+            </div>
+            <div class="column">
+                <img class="default" id= "3" src="{{url_for('static', filename='images/default3.jpg')}}">
+                <img class="default" id= "2" src="{{url_for('static', filename='images/default2.jpg')}}">
+            </div>
+            <div class="column">
+                <img class="default" id= "4" src="{{url_for('static', filename='images/default4.jpg')}}">
+                <img class="default" id= "1" src="{{url_for('static', filename='images/default1.jpg')}}">
+            </div>
+        </div>
     </div>
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

@@ -17,16 +17,17 @@ var intervalId = window.setInterval(function(){
     }
   }, 1500);
 
-//   $(document).ready(function() {
-//     for (let i = 0; i < credits.length; i++){
-//         character = credits.charAt(i);
-//         var fontType = Math.ceil(3 * Math.random());
+// Used to create a doodle from a given sentence
+function createDoodleFromSentence(sentence) {
+    for (let i = 0; i < sentence.length; i++){
+        character = sentence.charAt(i);
+        var fontType = Math.ceil(3 * Math.random());
     
-//         if (character === '#'){
-//             $(".credits").append('<br>');
-//         }
-//         else{
-//             $(".credits").append('<span class="font-' + fontType + '">' + character + "</span>");
-//         }
-//     }
-// });
+        if (character === '#'){
+            $(".credits").append('<br>');
+        }
+        else{
+            $(".credits").append('<span class="font-' + fontType + '">' + character + "</span>");
+        }
+    }
+}
