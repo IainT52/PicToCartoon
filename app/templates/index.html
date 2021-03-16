@@ -26,15 +26,17 @@
                 Upload
                 <input id="img-submit" type = "file" name = "file"/>
             </label>
+        </form>
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
+                    <a class="flash">
                     {% for message in messages %}
                         {{ message }}
                     {% endfor %}
+                    </a>
                 {% endif %}
             {% endwith %}
             {% block body %}{% endblock %}
-        </form>
         <form id="default-form" action = "/default" method = "POST"
             enctype = "multipart/form-data">
         </form>
@@ -48,16 +50,18 @@
                 <img class="default" id= "5" src="{{url_for('static', filename='images/default5.jpg')}}">
             </div>
             <div class="column">
+                <img class="default" id= "7" src="{{url_for('static', filename='images/default7.jpg')}}">
                 <img class="default" id= "2" src="{{url_for('static', filename='images/default2.jpg')}}">
-                <img class="default" id= "4" src="{{url_for('static', filename='images/default4.jpg')}}">
+                <img class="default" id= "9" src="{{url_for('static', filename='images/default9.jpg')}}">
             </div>
             <div class="column">
                 <img class="default" id= "3" src="{{url_for('static', filename='images/default3.jpg')}}">
-                <img class="default" id= "2" src="{{url_for('static', filename='images/default2.jpg')}}">
+                <img class="default" id= "6" src="{{url_for('static', filename='images/default6.jpg')}}">
+                <img class="default" id= "10" src="{{url_for('static', filename='images/default10.jpg')}}">
             </div>
             <div class="column">
+                <img class="default" id= "8" src="{{url_for('static', filename='images/default8.jpg')}}">
                 <img class="default" id= "4" src="{{url_for('static', filename='images/default4.jpg')}}">
-                <img class="default" id= "1" src="{{url_for('static', filename='images/default1.jpg')}}">
             </div>
         </div>
     </div>
