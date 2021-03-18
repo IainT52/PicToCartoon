@@ -13,6 +13,8 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 detector = Detector()
 
+cur_image_detected = None
+
 @app.route("/")
 def index():
     return render_template('/index.html')
@@ -20,31 +22,41 @@ def index():
 
 @app.route("/", methods=['POST'])
 def upload():
+    global cur_image_detected
     if request.method == 'POST':
         try:
             pre_detection_img = Image.open(request.files['file'].stream)
             img, object_info, stroke_data = detector.detect_object(pre_detection_img)
+            cur_image_detected = pre_detection_img
             return render_template('/sketch.html', data=[object_info, stroke_data])
         except:
-            print("ERROR")
+            print("Looks like you submitted an invalid file type!")
             flash('¯\_(ツ)_/¯   Looks like you submitted an invalid file type!')
             return render_template('/index.html')
 
 
 @app.route("/default", methods=['POST'])
 def submit_image():
+    global cur_image_detected
     if request.method == 'POST':
         try:
             id = int(request.form['id'])
-            print("test")
-            img_path = os.path.join(os.path.dirname(__file__), "static", "images", "default" + str(id) + ".jpg")
+            img_path = os.path.join(os.path.dirname(__file__), "static", "images", f"default{str(id)}.jpg")
             pre_detection_img = Image.open(img_path)
             img, object_info, stroke_data = detector.detect_object(pre_detection_img)
+            cur_image_detected = pre_detection_img
             return render_template('/sketch.html', data=[object_info, stroke_data])
         except:
-            print("ERROR")
+            print("Invalid default image ID!")
             flash('¯\_(ツ)_/¯   Invalid default image ID!')
             return render_template('/index.html')
+
+@app.route("/getImage", methods=['GET'])
+def get_image():
+    global cur_image_detected
+    if request.method == 'GET':
+        # cur_image_detected.show()
+        return json.dumps({'img':True})#cur_image_detected.tolist()
         
 
 if __name__ == "__main__":

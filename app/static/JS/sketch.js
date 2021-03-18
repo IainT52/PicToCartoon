@@ -1,17 +1,31 @@
 // Init Variables 
-var strokeIndex = 0, index = 0, i= 0, canvasWidth = $(window).width() * .9, canvasHeight = $(window).height() * .9, 
+var strokeIndex = 0, index = 0, i= 0, canvasWidth = $(window).width() * .85, canvasHeight = $(window).height() * .85, curStrokeData,
 strokeObjectData, objectData, strokesForEachObject, prevx, prevy, img_width, img_height, img_scale_x, img_scale_y, x_norm, y_norm;
 // Init constants
 const cartoon_img_height = 255, cartoon_img_width = 255;
 
 // Update canvas on window resize
 $(window).resize(function() {
-    canvasWidth = $(window).width() * .9;
-    canvasHeight = $(window).height() * .9;
+    canvasWidth = $(window).width() * .85;
+    canvasHeight = $(window).height() * .85;
     setup();
 });
 
+// Event listener for Redraw function
+$( ".redraw" ).click(function() {
+    setup();
+    getStrokeData(curStrokeData);
+});
+
+function getImage(){
+    $.get( "/getImage", function( data ) {
+        console.log(data);
+    });
+}
+
 function getStrokeData(data){
+    curStrokeData = data;
+    getImage();
     strokeObjectData = $.parseJSON(data);
     objectData = strokeObjectData[0];
     img_width = objectData[i]["img_width"];
@@ -26,7 +40,8 @@ function getStrokeData(data){
 
 // Setup the canvas
 function setup() {
-    createCanvas(canvasWidth, canvasHeight);
+    let renderer = createCanvas(canvasWidth, canvasHeight);
+    renderer.parent("canvas-container");
     background(51);
 }
 
@@ -64,6 +79,9 @@ function draw() {
                     x_norm = objectData[i]["normalized"][0];
                     y_norm = objectData[i]["normalized"][1];
                     strokesForEachObject = strokeObjectData[1][i];
+                }
+                else{
+                    i=0, strokeIndex = 0, index = 0, i= 0, prevx = undefined, prevy = undefined;
                 }
             }
         } else {

@@ -17,13 +17,17 @@
         <p class="credits">
             <span class="font-2">A</span><span class="font-2"> </span><span class="font-3">f</span><span class="font-3">u</span><span class="font-3">n</span><span class="font-1"> </span><span class="font-2">p</span><span class="font-1">r</span><span class="font-3">o</span><span class="font-3">j</span><span class="font-1">e</span><span class="font-1">c</span><span class="font-2">t</span><span class="font-3"> </span><span class="font-2">m</span><span class="font-2">a</span><span class="font-1">d</span><span class="font-2">e</span><span class="font-3"> </span><span class="font-2">b</span><span class="font-2">y</span><span class="font-1"> </span><span class="font-1">I</span><span class="font-2">a</span><span class="font-1">i</span><span class="font-2">n</span><span class="font-3"> </span><span class="font-3">T</span><span class="font-2">i</span><span class="font-1">e</span><span class="font-1">r</span><span class="font-3">n</span><span class="font-3">e</span><span class="font-2">y</span><span class="font-2">.</span>
         </p>
+        <p class="about">
+            <b>PicToCartoon</b> uses TensorFlow 2 Neural Networks and Google QuickDraw (millions of cartoon drawings made by real people) 
+            to detect and recreate a doodle of common objects in a picture.
+        </p>
     </div>
 
     <div class="submit-container">
         <form id="img-form" action = "/" method = "POST"
             enctype = "multipart/form-data">
             <label for="img-submit" class="custom-file-upload">
-                Upload
+                <span class="font-1">Up</span><span class="font-2">l</span><span class="font-3">o</span><span class="font-1">ad</span>
                 <input id="img-submit" type = "file" name = "file"/>
             </label>
         </form>
@@ -37,31 +41,31 @@
                 {% endif %}
             {% endwith %}
             {% block body %}{% endblock %}
+        <p class="or">Or choose an image below!</p>
         <form id="default-form" action = "/default" method = "POST"
             enctype = "multipart/form-data">
         </form>
-        <p class="or">Or choose an image below!</p>
     </div>
 
     <div class="grid-container">
         <div class="row">
             <div class="column">
-                <img class="default" id= "1" src="{{url_for('static', filename='images/default1.jpg')}}">
+                <img class="default" alt="DefaultPic" id= "1" src="{{url_for('static', filename='images/default1.jpg')}}">
                 <img class="default" id= "5" src="{{url_for('static', filename='images/default5.jpg')}}">
             </div>
             <div class="column">
-                <img class="default" id= "7" src="{{url_for('static', filename='images/default7.jpg')}}">
-                <img class="default" id= "2" src="{{url_for('static', filename='images/default2.jpg')}}">
-                <img class="default" id= "9" src="{{url_for('static', filename='images/default9.jpg')}}">
+                <img class="default" alt="DefaultPic" id= "7" src="{{url_for('static', filename='images/default7.jpg')}}">
+                <img class="default" alt="DefaultPic" id= "2" src="{{url_for('static', filename='images/default2.jpg')}}">
+                <img class="default" alt="DefaultPic" id= "9" src="{{url_for('static', filename='images/default9.jpg')}}">
             </div>
             <div class="column">
-                <img class="default" id= "3" src="{{url_for('static', filename='images/default3.jpg')}}">
-                <img class="default" id= "6" src="{{url_for('static', filename='images/default6.jpg')}}">
-                <img class="default" id= "10" src="{{url_for('static', filename='images/default10.jpg')}}">
+                <img class="default" alt="DefaultPic" id= "3" src="{{url_for('static', filename='images/default3.jpg')}}">
+                <img class="default" alt="DefaultPic" id= "6" src="{{url_for('static', filename='images/default6.jpg')}}">
+                <img class="default" alt="DefaultPic" id= "10" src="{{url_for('static', filename='images/default10.jpg')}}">
             </div>
             <div class="column">
-                <img class="default" id= "8" src="{{url_for('static', filename='images/default8.jpg')}}">
-                <img class="default" id= "4" src="{{url_for('static', filename='images/default4.jpg')}}">
+                <img class="default" alt="DefaultPic" id= "8" src="{{url_for('static', filename='images/default8.jpg')}}">
+                <img class="default" alt="DefaultPic" id= "4" src="{{url_for('static', filename='images/default4.jpg')}}">
             </div>
         </div>
     </div>

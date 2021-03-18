@@ -111,11 +111,15 @@ class Detector:
 
         return img, object_info, strokes
     
-    
     def get_object_scale(self, obj_left, obj_right, obj_top, obj_bottom, img_width, img_height):
         scale_x = (obj_right-obj_left)/img_width
         scale_y = (obj_bottom-obj_top)/img_height
         return [scale_x, scale_y]
+
+    def normalize_object_coordinates(self, obj_left, obj_top, img_width, img_height):
+        x_normalized = obj_left/img_width
+        y_normalized = obj_top/img_height
+        return [x_normalized, y_normalized]
 
     '''
     Example Input:
@@ -127,27 +131,23 @@ class Detector:
         img_height = 1300
         canvas_width = 1200
         canvas_height = 700
-        img_scale_x = function call above ^ = 0.30
-        img_scale_y = function call above ^ = 0.98
+        img_scale_x = found w/ get_object_scale() = 0.30
+        img_scale_y = found w/ get_object_scale() = 0.98
         obj_left = 1000
         obj_top = 20
         obj_bottom = 1300
         obj_right = 1600
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Determining the normalized coordinates for the cartoon drawing:
-            - Call this function below to get the normalized x and y coordinates for the object: x_norm = 0.5 | y_norm = 0.015
+            - Call normalize_object_coordinates() to get the normalized x and y coordinates for the object: x_norm = 0.5 | y_norm = 0.015
             - x point scaled and normalized = ((cartoon_point_x / cartoon_img_width) * (img_scale_x * img_width)) + (x_norm*canvas_width) -> ((100/255)*.30*1200) + (.5*1200)
             - y point scaled and normalized = ((cartoon_point_y / cartoon_img_height) * (img_scale_y * img_height)) + (y_norm*canvas_height) -> ((100/255)*0.98*700) + (.015*700)
 
     '''
-    def normalize_object_coordinates(self, obj_left, obj_top, img_width, img_height):
-        x_normalized = obj_left/img_width
-        y_normalized = obj_top/img_height
-        return [x_normalized, y_normalized]
 
     def draw_cartoon(self):
         # Initialize a QuickDraw object to access the API
-        qd = QuickDrawData(recognized=True, max_drawings=100)
+        qd = QuickDrawData(recognized=True, max_drawings=1000)
         strokes_object_list = []
         # Get quickdraw cartoon drawings with object results
         for object in self.detected_objects:

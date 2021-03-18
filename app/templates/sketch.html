@@ -4,12 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='CSS/main.css') }}">
-    <title>Document</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='CSS/sketch.css') }}">
+    <title>PicToCartoon</title>
 </head>
 <body>
-    <a href="{{ url_for('index') }}"><span>home</span></a>
+
+    <div class="btn-container">
+        <a href="{{ url_for('index') }}" class="btn-style"><span class="font-1">H</span><span class="font-2">o</span><span class="font-3">m</span><span class="font-1">e</span></a>
+        <a href="#" class="redraw btn-style"><span class="font-1">Re</span><span class="font-2">D</span><span class="font-3">r</span><span class="font-1">aw</span></a>
+        <a href="https://iaint52.github.io/" target="_blank"class="website btn-style"><span class="font-1">My</span><span class="font-2">We</span><span class="font-3">b</span><span class="font-1">si</span><span class="font-1">te</span></a>
+    </div>
     
+    <div id="canvas-container"></div>
+
+
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- p5.js -->

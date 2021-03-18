@@ -14,11 +14,11 @@ html body{
 
 /* Scrollbar */
 *::-webkit-scrollbar {
-    width: 5px;
+    width: 12px;
 }
 
 *::-webkit-scrollbar-track {
-    background: transparent;
+    background: rgb(73, 82, 100);
 }
 
 *::-webkit-scrollbar-thumb {
@@ -27,7 +27,7 @@ html body{
     border: 3px solid transparent;
 }
 
-/* Home hand scribble font setup*/
+/* Hand scribble font setup*/
 @font-face {
 	font-family: Hand-1;
 	src: url("../font/hand-1.otf") format("opentype"); 
@@ -40,23 +40,6 @@ html body{
 	font-family: Hand-3;
 	src: url("../font/hand-3.otf") format("opentype"); 
 }
-.hand span {
-	position: relative;
-    top: 10vh;
-    transform: translate(-50%, -50%);
-	bottom: -.2em;
-	font-size: calc((1.5vw + 1.5vh)/2 + 5vmin);
-    font-weight: normal;
-}
-
-.credits {
-    position: relative;
-    top: 10vh;
-    font-size: calc((1.3vw + 1.3vh)/2 + 1.5vmin);
-    font-weight: lighter;
-    color: #171717;
-}
-
 .font-1 {
     font-family: Hand-1;
 }
@@ -67,12 +50,55 @@ html body{
     font-family: Hand-3; 
 }
 
+.intro-container{
+    position: relative;
+    top: 10vh;
+}
+
+.hand span {
+	position: relative;
+    transform: translate(-50%, -50%);
+	font-size: calc((1.5vw + 1.5vh)/2 + 5vmin);
+    font-weight: normal;
+}
+
+.credits {
+    position: relative;
+    font-size: calc((1.3vw + 1.3vh)/2 + 1vmin);
+    font-weight: lighter;
+    color: #171717;
+    margin-top: -20px;
+}
+
+.about{
+    font-family: 'Quicksand', sans-serif;
+    position: relative;
+    width: 50vw;
+    margin-top: 10vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+    font-weight: 500;
+    font-size: calc((1vw + 1vh)/2 + 1vmin);
+    color: #171717;
+}
+
+.about-container{
+    position: relative;
+    left: 50vw;
+    margin-top: 15vh;
+    transform: translate(-50%, -50%);
+    width: 700px;
+    height: 200px
+}
+
 .or{
     font-family: 'Quicksand', sans-serif;
     font-weight: 500;
+    margin-top: 10px;
     font-size: calc((1.5vw + 1.5vh)/2 + 1.5vmin);
     color: #171717;
 }
+
 
 input[type="file"] {
     position: absolute;
@@ -84,9 +110,9 @@ input[type="file"] {
     clip: rect(0,0,0,0);
     border: 0;
 }
+
 .custom-file-upload {
     width: 200px;
-    max-width: 100%;
     height: 50px;
     display: inline-block;
     overflow: hidden;
@@ -109,10 +135,10 @@ input[type="file"] {
                 -2px 2px 0px 0px#d8b131,
                 -1px 1px 0px 0px#d8b131;
     border-radius: 10px;
-    font-size: 24px;
-    font-weight: 600;
+    font-size: 50px;
+    font-weight: 500;
     font-family: Open Sans,sans-serif;
-    line-height: 60px;
+    line-height: 55px;
     justify-content: center;
     align-items: center;
     outline: none;
@@ -130,11 +156,10 @@ input[type="file"] {
     position:absolute;
     height:max-content;
     width: max-content;
-    top: 50vh;
+    margin-top: 30vh;
     left: 50vw;
     transform: translate(-50%, -50%);
     background-color: var(--main-theme-color);
-    text-align: center;
     display: inline-block;
 }
 
@@ -187,12 +212,40 @@ input[type="file"] {
       flex: 48%;
       max-width: 48%;
     }
+
+    .grid-container{
+        position: absolute;
+        top: 80vh;
+    }
+
+    .submit-container{
+        margin-top: 10vh;
+    }
+
+    .hand span {
+        font-size: calc((1.5vw + 1.5vh)/2 + 5vmin);
+    }
+    
+    .credits {
+        font-size: calc((1.5vw + 1.5vh)/2 + 1vmin);
+    }
+
+    .about{
+        font-size: calc((1.3vw + 1.3vh)/2 + 1vmin);
+    }
+    .custom-file-upload{
+        width: 100px;
+        height: 25px;
+        line-height: 25px;
+        font-size: 30px;
+        font-weight: 400;
+    }
   }
   
-  @media screen and (max-width: 650px) {
+@media screen and (max-width: 650px) {
     /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
     .column {
       flex: 100%;
       max-width: 100%;
     }
-  }
+}
