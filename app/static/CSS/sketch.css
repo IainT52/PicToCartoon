@@ -136,6 +136,28 @@ html body{
     border-radius: 5px;
 }
 
+#object-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+    left: 1vw;
+    top: 0vh;
+    width: max-content;
+    height: max-content;
+    background: transparent;
+    z-index: 1;
+}
+
+#object-names {
+    color: #ffd139;
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: calc((1vw + 1vh)/2 + 1vmin);
+}
+
 @media screen and (max-width: 650px) {
     /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
     .btn-style {

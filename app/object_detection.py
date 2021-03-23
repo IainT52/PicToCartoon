@@ -76,7 +76,6 @@ class Detector:
             6: dist of object from the bottom
         '''
 
-
         for detection in networkOutput[0, 0]:
 
             score = float(detection[2])
@@ -87,29 +86,71 @@ class Detector:
                 obj_top = detection[4] * img_height
                 obj_right = detection[5] * img_width
                 obj_bottom = detection[6] * img_height
+
                 # Object name, scale, and x,y offet
                 name_of_object = self.classNames[detection[1]]
                 xy_scale = self.get_object_scale(obj_left,obj_right,obj_top,obj_bottom,img_width,img_height)
                 xy_normalized = self.normalize_object_coordinates(obj_left,obj_top,img_width,img_height)
-                self.detected_objects.append({"name": name_of_object, "scale": xy_scale, "normalized": xy_normalized, "img_width":img_width, "img_height":img_height})
+                strokes = self.get_drawing(self.tensorflow_to_quickdraw_hash[name_of_object])
 
+                if strokes is not None:
+                    self.detected_objects.append({"name": name_of_object, "scale": xy_scale, "normalized": xy_normalized, "img_width":img_width, "img_height":img_height, "strokes": strokes})
+
+                # Check for a person to be detected
+                if detection[1] == 1:
+                    self.person_detected(obj_left,obj_right,obj_top,obj_bottom,img_width,img_height)
+                
                 # draw a red rectangle around detected objects
                 cv2.rectangle(img, (int(obj_left), int(obj_top)), (int(obj_right), int(obj_bottom)), (0, 0, 255), thickness=2)
-        
+
         # Resize the image
         # scaled_width = 1000
         # scaled_height = int(scaled_width * img_height / img_width)
         # img = cv2.resize(img, (scaled_width, scaled_height), interpolation = cv2.INTER_AREA)
         # cv2.imshow('image',img)
         # cv2.waitKey(0)
-        
-        strokes = self.draw_cartoon()
+
         object_info = self.detected_objects
 
         # Empty the detected objects for the next call
         self.detected_objects = []
 
-        return img, object_info, strokes
+        return img, object_info
+
+
+    def person_detected(self, obj_left, obj_right ,obj_top, obj_bottom, img_width, img_height):
+        # Remove face form detected objects
+        object_data = self.detected_objects.pop()
+
+        # Calculate new top and bottom heights
+        face_bottom = obj_bottom - ((obj_bottom - obj_top)*(2/3))
+        shirt_bottom = obj_bottom - ((obj_bottom - obj_top)*(1/3))
+        pants_bottom = obj_bottom
+        face_top = obj_top
+        shirt_top = obj_top + ((obj_bottom - obj_top)*(1/3))
+        pants_top = obj_top + ((obj_bottom - obj_top)*(2/3))
+
+        # Scale
+        face_scale = self.get_object_scale(obj_left, obj_right, face_top, face_bottom, img_width, img_height)
+        shirt_scale = self.get_object_scale(obj_left, obj_right, shirt_top, shirt_bottom, img_width, img_height)
+        pants_scale = self.get_object_scale(obj_left, obj_right, pants_top, pants_bottom, img_width, img_height)
+
+        # Normalize
+        face_normalize = self.normalize_object_coordinates(obj_left, face_top, img_width, img_height)
+        shirt_normalize = self.normalize_object_coordinates(obj_left, shirt_top, img_width, img_height)
+        pants_normalize = self.normalize_object_coordinates(obj_left, pants_top, img_width, img_height)
+
+        # Strokes
+        face_strokes = object_data["strokes"]
+        shirt_strokes = self.get_drawing("t-shirt")
+        pants_strokes = self.get_drawing("pants")
+
+        # Add objects
+        self.detected_objects.append({"name": "face", "scale": face_scale, "normalized": face_normalize, "img_width":img_width, "img_height":img_height, "strokes": face_strokes})
+        self.detected_objects.append({"name": "t-shirt", "scale": shirt_scale, "normalized": shirt_normalize, "img_width":img_width, "img_height":img_height, "strokes": shirt_strokes})
+        self.detected_objects.append({"name": "pants", "scale": pants_scale, "normalized": pants_normalize, "img_width":img_width, "img_height":img_height, "strokes": pants_strokes})
+
+        
     
     def get_object_scale(self, obj_left, obj_right, obj_top, obj_bottom, img_width, img_height):
         scale_x = (obj_right-obj_left)/img_width
@@ -145,18 +186,12 @@ class Detector:
 
     '''
 
-    def draw_cartoon(self):
+    def get_drawing(self, name):
         # Initialize a QuickDraw object to access the API
         qd = QuickDrawData(recognized=True, max_drawings=1000)
-        strokes_object_list = []
-        # Get quickdraw cartoon drawings with object results
-        for object in self.detected_objects:
-            object = object["name"]
-            qd_object = self.tensorflow_to_quickdraw_hash[object]
-            if qd_object != "":
-                cur_object = qd.get_drawing(qd_object)
-                # Strokes
-                strokes_object_list.append(cur_object.strokes)
-            else:
-                print(f"{object} is not a valid QuickDraw Image")
-        return strokes_object_list
+        if name != "":
+            cur_object = qd.get_drawing(name)
+        else:
+            print("Not a valid QuickDraw image!")
+            return None
+        return cur_object.strokes

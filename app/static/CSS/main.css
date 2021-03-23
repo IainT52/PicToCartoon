@@ -50,9 +50,74 @@ html body{
     font-family: Hand-3; 
 }
 
+.btn-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    top: 0;
+    left: 0;
+}
+
+.btn-style {
+    margin-top: 5px;
+    width: max-content;
+    height: 40px;
+    margin-right: 10px;
+    margin-left: 20px;
+    display: inline-block;
+    overflow: hidden;
+    padding: 6px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    transition: .2s;
+    text-align: center;
+    white-space: nowrap;
+    text-decoration: none!important;
+    text-transform: none;
+    box-shadow: -8px 8px 0px 0px #2961fc, 
+                -7px 7px 0px 0px #2961fc,
+                -6px 6px 0px 0px #2961fc,
+                -5px 5px 0px 0px #2961fc,
+                -4px 4px 0px 0px #2961fc, 
+                -3px 3px 0px 0px#2961fc,
+                -2px 2px 0px 0px#2961fc,
+                -1px 1px 0px 0px#2961fc;
+    border-radius: 10px;
+    font-size: 45px;
+    font-weight: lighter;
+    font-family: Open Sans,sans-serif;
+    line-height: 45px;
+    outline: none;
+    color: #fff;
+    background: #4476ff;
+}
+
+.website {
+    position: relative;
+    align-self: flex-end;
+    font-size: 30px;
+    box-shadow: -8px 8px 0px 0px #a52222, 
+                -7px 7px 0px 0px #a52222,
+                -6px 6px 0px 0px #a52222,
+                -5px 5px 0px 0px #a52222,
+                -4px 4px 0px 0px #a52222, 
+                -3px 3px 0px 0px#a52222,
+                -2px 2px 0px 0px#a52222,
+                -1px 1px 0px 0px#a52222;
+    background: #e42f2f;
+}
+
+.btn-style:active {
+    transform: translateY(6px);
+    transform: translatex(-5px);
+    box-shadow: none;
+}
+
 .intro-container{
     position: relative;
-    top: 10vh;
+    top: 5vh;
 }
 
 .hand span {
@@ -80,15 +145,6 @@ html body{
     font-weight: 500;
     font-size: calc((1vw + 1vh)/2 + 1vmin);
     color: #171717;
-}
-
-.about-container{
-    position: relative;
-    left: 50vw;
-    margin-top: 15vh;
-    transform: translate(-50%, -50%);
-    width: 700px;
-    height: 200px
 }
 
 .or{
@@ -156,7 +212,7 @@ input[type="file"] {
     position:absolute;
     height:max-content;
     width: max-content;
-    margin-top: 30vh;
+    margin-top: 15vh;
     left: 50vw;
     transform: translate(-50%, -50%);
     background-color: var(--main-theme-color);
@@ -227,11 +283,12 @@ input[type="file"] {
     }
     
     .credits {
-        font-size: calc((1.5vw + 1.5vh)/2 + 1vmin);
+        font-size: calc((1.6vw + 1.6vh)/2 + 1.5vmin);
     }
 
     .about{
-        font-size: calc((1.3vw + 1.3vh)/2 + 1vmin);
+        font-size: calc((1.4vw + 1.4vh)/2 + 1.2vmin);
+        width: 70vw;
     }
     .custom-file-upload{
         width: 100px;
@@ -240,6 +297,12 @@ input[type="file"] {
         font-size: 30px;
         font-weight: 400;
     }
+
+    .btn-style {
+        font-size: 25px;
+        height: 25px;
+        line-height: 30px;
+    }
   }
   
 @media screen and (max-width: 650px) {
@@ -247,5 +310,8 @@ input[type="file"] {
     .column {
       flex: 100%;
       max-width: 100%;
+    }
+    .about{
+        width: 80vw;
     }
 }

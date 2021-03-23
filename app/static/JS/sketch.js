@@ -1,8 +1,8 @@
 // Init Variables 
 var strokeIndex = 0, index = 0, i= 0, canvasWidth = $(window).width() * .85, canvasHeight = $(window).height() * .85, curStrokeData,
-strokeObjectData, objectData, strokesForEachObject, prevx, prevy, img_width, img_height, img_scale_x, img_scale_y, x_norm, y_norm;
+objectData, strokesForEachObject, prevx, prevy, img_width, img_height, img_scale_x, img_scale_y, x_norm, y_norm, strokeScaleForDrawTime;
 // Init constants
-const cartoon_img_height = 255, cartoon_img_width = 255;
+const cartoon_img_height = 255, cartoon_img_width = 255, minFrameRate = 20, maxFrameRate = 60;
 
 // Update canvas on window resize
 $(window).resize(function() {
@@ -14,28 +14,31 @@ $(window).resize(function() {
 // Event listener for Redraw function
 $( ".redraw" ).click(function() {
     setup();
+    i=0, strokeIndex = 0, index = 0, prevx = undefined, prevy = undefined;
     getStrokeData(curStrokeData);
 });
 
-function getImage(){
-    $.get( "/getImage", function( data ) {
-        console.log(data);
-    });
-}
-
 function getStrokeData(data){
     curStrokeData = data;
-    getImage();
-    strokeObjectData = $.parseJSON(data);
-    objectData = strokeObjectData[0];
+    objectData = $.parseJSON(data)[0];
+    getNewObject();
+}
+
+function displayObjectNames(name){
+    $('#object-container').append('<p id="object-names" class="'+ name +'">'+ name.replace(/_/g, ' ') +'</p>');
+    $('.'+ name).fadeOut(3000);
+}
+
+function getNewObject(){
+    let name =  objectData[i]["name"].replace(/ /g,"_");
+    displayObjectNames(name);
     img_width = objectData[i]["img_width"];
     img_height = objectData[i]["img_height"];
     img_scale_x = objectData[i]["scale"][0];
     img_scale_y = objectData[i]["scale"][1];
     x_norm = objectData[i]["normalized"][0];
     y_norm = objectData[i]["normalized"][1];
-    strokesForEachObject = strokeObjectData[1][i];
-    return;
+    strokesForEachObject = objectData[i]["strokes"];
 }
 
 // Setup the canvas
@@ -43,6 +46,7 @@ function setup() {
     let renderer = createCanvas(canvasWidth, canvasHeight);
     renderer.parent("canvas-container");
     background(51);
+    frameRate(60);
 }
 
 /* 
@@ -72,16 +76,10 @@ function draw() {
                 strokeIndex = 0;
                 i++;
                 if (i < objectData.length){
-                    img_width = objectData[i]["img_width"];
-                    img_height = objectData[i]["img_height"];
-                    img_scale_x = objectData[i]["scale"][0];
-                    img_scale_y = objectData[i]["scale"][1];
-                    x_norm = objectData[i]["normalized"][0];
-                    y_norm = objectData[i]["normalized"][1];
-                    strokesForEachObject = strokeObjectData[1][i];
+                    getNewObject();
                 }
                 else{
-                    i=0, strokeIndex = 0, index = 0, i= 0, prevx = undefined, prevy = undefined;
+                    i=0, strokeIndex = 0, index = 0, prevx = undefined, prevy = undefined;
                 }
             }
         } else {
