@@ -7,23 +7,28 @@ Tensorflow 2 Neural Networks, OpenCV and Google QuickDraw come together to turn 
     * OpenCV
     * QuickDraw
 - Install dependencies using `pip install -r requirements.txt`.
+- Navigate to the app folder from the root directory `cd app`.
 - Run app from command line using `flask run`.
-- Close the app using ctrl-C once the downloads have finished.
+- Close the app using ctrl-C.
 
 
 # How it works
 #### Object Detection
 - An image is submitted by the user and then passed through a TensorFlow 2 object detection model.
 - Each detected object is surrounded by a 2D box to represent the area it takes up in the image.
-- Each box is given a scale value corresponding to the size relative to the whole image. Ex. An object that takes up 25% of the entire image will have a scale = 0.25.
-#### Fetching and Normalizing the QuickDraw Cartoon Drawings
-- For each object, a matching cartoon drawing (the drawings stroke coordinates) is fetched from the QuickDraw API.
-- The stroke coordinates for each cartoon drawing are scaled with each matching objects scale value.
-- The stroke coordinates are offset by the location of ....To be continued 
+- Each box is given a scale value corresponding to its size relative to the whole image. Ex. An object that takes up 25% of the entire image will have a scale = 0.25.
+#### Fetching, Scaling, and Normalizing the QuickDraw Cartoon Drawings
+- For each object, a matching cartoon drawing (stroke coordinates) is fetched from the QuickDraw API.
+- The stroke coordinates for each cartoon drawing are scaled and normalized with each matching objects scale and normalized value.
+- Each x and y coordinate is scaled and normalized as follows:
+```javascript
+  let coordinate_x = ((x / cartoon_img_height) * (img_scale_x * canvasWidth)) + (x_norm * canvasWidth);
+  let coordinate_y = ((y / cartoon_img_width) * (img_scale_y * canvasHeight)) + (y_norm * canvasHeight);
+```
 
 
 # The Quick, Draw! Dataset
-![photo](images/quickdraw.jpg)
+![photo](app/static/images/quickdraw.jpg)
 
 The Quick Draw Dataset is a collection of 50 million drawings across [345 categories](categories.txt), contributed by players of the game [Quick, Draw!](https://quickdraw.withgoogle.com). The drawings were captured as timestamped vectors, tagged with metadata including what the player was asked to draw and in which country the player was located. You can browse the recognized drawings on [quickdraw.withgoogle.com/data](https://quickdraw.withgoogle.com/data).
 
