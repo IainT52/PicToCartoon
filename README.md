@@ -1,25 +1,25 @@
 # PicToCartoon
-Tensorflow 2 Neural Networks, OpenCV and Google QuickDraw come together to turn real life pictures into cartoon drawings. Using a pre-trained COCO model (SSD MobileNet V1) for object detection, this app can quickly identify 91 objects and translate them into their cartoon counterparts. 
+[PicToCartoon](https://pictocartoon.herokuapp.com/) uses Tensorflow 2 Neural Networks, OpenCV and Google QuickDraw to turn real life pictures into cartoon drawings. Using a pre-trained COCO model (SSD MobileNet V1) for object detection, this app can quickly identify 91 objects and translate them into their cartoon counterparts. 
 
 - Requirements:
     * Python 3.8
     * Flask
     * OpenCV
     * QuickDraw
-- Install dependencies using `pip install -r requirements.txt`.
-- Navigate to the app folder from the root directory `cd app`.
-- Run app from command line using `flask run`.
-- Close the app using ctrl-C.
+- Install dependencies using `pip install -r requirements.txt`
+- Navigate to the app folder from the root directory `cd app`
+- Run app from command line using `flask run`
+- Close the app using ctrl-C
 
 
 # How it works
 #### Object Detection
-- An image is submitted by the user and then passed through a TensorFlow 2 object detection model.
-- Each detected object is surrounded by a 2D box to represent the area it takes up in the image.
-- Each box is given a scale value corresponding to its size relative to the whole image. Ex. An object that takes up 25% of the entire image will have a scale = 0.25.
+- An image is submitted by the user and then passed through a TensorFlow 2 object detection model
+- Each detected object is surrounded by a 2D box to represent the area it takes up in the image
+- Each box is given a scale value corresponding to its size relative to the whole image. Ex. An object that takes up 25% of the entire image will have a scale = 0.25
 #### Fetching, Scaling, and Normalizing the QuickDraw Cartoon Drawings
-- For each object, a matching cartoon drawing (stroke coordinates) is fetched from the QuickDraw API.
-- The stroke coordinates for each cartoon drawing are scaled and normalized with each matching objects scale and normalized value.
+- For each object, a matching cartoon drawing (stroke coordinates) is fetched from the QuickDraw API
+- The stroke coordinates for each cartoon drawing are scaled and normalized with each matching objects scale and normalized value
 - Each x and y coordinate is scaled and normalized as follows:
 ```javascript
   let coordinate_x = ((x / cartoon_img_height) * (img_scale_x * canvasWidth)) + (x_norm * canvasWidth);
