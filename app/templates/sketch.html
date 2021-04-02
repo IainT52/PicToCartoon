@@ -18,7 +18,7 @@
     
     <div id="canvas-container">
         <div id="object-container">
-            <p id="object-names">Objects Detected:</p>
+            <p id="view-img" class="object-header btn-style"><span class="font-1">Vi</span><span class="font-2">ew </span><span class="font-3">Im</span><span class="font-1">ag</span><span class="font-1">e</span></p>
         </div>
     </div>
 
@@ -29,6 +29,7 @@
     <!-- p5.js -->
     <script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
     <script type = "text/javascript" src="{{url_for('static', filename='JS/sketch.js')}}"></script>
+    <script type = "text/javascript" src="{{url_for('static', filename='JS/drag.js')}}"></script>
     <script type="text/javascript">
         // Send stroke data to JS file
         sketchData = '{{data|tojson}}'

@@ -91,7 +91,7 @@ class Detector:
                 name_of_object = self.classNames[detection[1]]
                 xy_scale = self.get_object_scale(obj_left,obj_right,obj_top,obj_bottom,img_width,img_height)
                 xy_normalized = self.normalize_object_coordinates(obj_left,obj_top,img_width,img_height)
-                strokes = self.get_drawing(self.tensorflow_to_quickdraw_hash[name_of_object])
+                strokes = self.get_quickdraw_drawing(self.tensorflow_to_quickdraw_hash[name_of_object])
 
                 if strokes is not None:
                     self.detected_objects.append({"name": name_of_object, "scale": xy_scale, "normalized": xy_normalized, "img_width":img_width, "img_height":img_height, "strokes": strokes})
@@ -101,14 +101,12 @@ class Detector:
                     self.person_detected(obj_left,obj_right,obj_top,obj_bottom,img_width,img_height)
                 
                 # draw a red rectangle around detected objects
-                cv2.rectangle(img, (int(obj_left), int(obj_top)), (int(obj_right), int(obj_bottom)), (0, 0, 255), thickness=2)
+                cv2.rectangle(img, (int(obj_left), int(obj_top)), (int(obj_right), int(obj_bottom)), (0, 0, 255), thickness=8)
 
         # Resize the image
         # scaled_width = 1000
         # scaled_height = int(scaled_width * img_height / img_width)
         # img = cv2.resize(img, (scaled_width, scaled_height), interpolation = cv2.INTER_AREA)
-        # cv2.imshow('image',img)
-        # cv2.waitKey(0)
 
         object_info = self.detected_objects
 
@@ -142,8 +140,8 @@ class Detector:
 
         # Strokes
         face_strokes = object_data["strokes"]
-        shirt_strokes = self.get_drawing("t-shirt")
-        pants_strokes = self.get_drawing("pants")
+        shirt_strokes = self.get_quickdraw_drawing("t-shirt")
+        pants_strokes = self.get_quickdraw_drawing("pants")
 
         # Add objects
         self.detected_objects.append({"name": "face", "scale": face_scale, "normalized": face_normalize, "img_width":img_width, "img_height":img_height, "strokes": face_strokes})
@@ -186,7 +184,7 @@ class Detector:
 
     '''
 
-    def get_drawing(self, name):
+    def get_quickdraw_drawing(self, name):
         # Initialize a QuickDraw object to access the API
         qd = QuickDrawData(recognized=True, max_drawings=1000)
         if name != "":
