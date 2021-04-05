@@ -10,9 +10,6 @@ class Detector:
         ssd_config = os.path.join(os.path.dirname(__file__), '../models', 'ssd_mobilenet_model', 'ssd_mobilenet_v1_coco_2017_11_17.pbtxt')
         self.tensorflowNet = cv2.dnn.readNetFromTensorflow(frozen_ssd_model, ssd_config)
 
-        # Tensorflow accuracy threshold
-        self.threshold = 0.5
-
         # List of dictionaries containg detected objects information.
         self.detected_objects = []
 
@@ -68,7 +65,7 @@ class Detector:
         # For mask rcnn model
         # networkOutput, mask = self.tensorflowNet.forward(["detection_out_final", "detection_masks"])
 
-        ''' 
+        '''
         Loop over the detected objects
             Detection Indexes:
             0: (not used)
@@ -83,7 +80,7 @@ class Detector:
         for detection in networkOutput[0, 0]:
 
             score = float(detection[2])
-            if score > self.threshold:
+            if score > 0.5:
 
                 # Object dimensions
                 obj_left = detection[3] * img_width
