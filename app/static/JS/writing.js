@@ -13,7 +13,6 @@ var intervalId = window.setInterval(function(){
         else{
             $(".hand").append('<span class="font-' + fontType + '">' + character + "</span>");
         }
-
     }
   }, 1500);
 
