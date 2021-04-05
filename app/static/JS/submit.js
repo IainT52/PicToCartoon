@@ -33,12 +33,6 @@ function showLoadScreen(){
             $('.lds-ellipsis > span').each(function(){
                 this.style.color = colors[Math.floor(3 * Math.random())];
             });
-            // $(".lds-ellipsis").empty();
-            // for (let i = 0; i < loadWord.length; i++){
-            //     character = loadWord.charAt(i);
-            //     var fontType = Math.ceil(3 * Math.random());
-            //     $(".lds-ellipsis").append('<span class="font-' + fontType + '">' + character + "</span>");
-            // }
         }
     }, 400);
 }

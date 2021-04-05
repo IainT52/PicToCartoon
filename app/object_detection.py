@@ -16,6 +16,10 @@ class Detector:
         # List of dictionaries containg detected objects information.
         self.detected_objects = []
 
+        # QuckDraw object
+        cache_path = os.path.join(os.path.dirname(__file__), 'quickdrawcache')
+        self.qd = QuickDrawData(recognized=True, max_drawings=1000, cache_dir= cache_path)
+
         # Label HashMap
         self.classNames = {0: 'background',
                     1: 'person', 2: 'bicycle', 3: 'car', 4: 'motorcycle', 5: 'airplane', 6: 'bus',
@@ -94,7 +98,7 @@ class Detector:
                 strokes = self.get_quickdraw_drawing(self.tensorflow_to_quickdraw_hash[name_of_object])
 
                 if strokes is not None:
-                    self.detected_objects.append({"name": name_of_object, "scale": xy_scale, "normalized": xy_normalized, "img_width":img_width, "img_height":img_height, "strokes": strokes})
+                    self.detected_objects.append({"name":name_of_object, "scale":xy_scale, "normalized":xy_normalized, "img_width":img_width, "img_height":img_height, "strokes":strokes})
 
                 # Check for a person to be detected
                 if detection[1] == 1:
@@ -186,9 +190,8 @@ class Detector:
 
     def get_quickdraw_drawing(self, name):
         # Initialize a QuickDraw object to access the API
-        qd = QuickDrawData(recognized=True, max_drawings=1000)
         if name != "":
-            cur_object = qd.get_drawing(name)
+            cur_object = self.qd.get_drawing(name)
         else:
             print("Not a valid QuickDraw image!")
             return None
