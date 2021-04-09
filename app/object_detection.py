@@ -118,7 +118,7 @@ class Detector:
 
 
     def person_detected(self, obj_left, obj_right ,obj_top, obj_bottom, img_width, img_height):
-        # Remove face form detected objects
+        # Remove face from detected objects
         object_data = self.detected_objects.pop()
 
         # Calculate new top and bottom heights

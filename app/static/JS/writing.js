@@ -1,5 +1,5 @@
 const sentence = "What happens when a Neural Network # tries to draw your photo?"
-const credits = "A fun project made by Iain Tierney."
+const credits = "A fun project made to learn A.I."
 
 var intervalId = window.setInterval(function(){
     $(".hand").empty();
@@ -18,6 +18,7 @@ var intervalId = window.setInterval(function(){
 
 // Used to create a doodle from a given sentence
 function createDoodleFromSentence(sentence) {
+    $(".credits").empty();
     for (let i = 0; i < sentence.length; i++){
         character = sentence.charAt(i);
         var fontType = Math.ceil(3 * Math.random());
